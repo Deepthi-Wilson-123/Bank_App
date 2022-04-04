@@ -11,7 +11,6 @@ export class LoginComponent implements OnInit {
   accnum = "Account Number Please"
   acno=""
   pswd=""
-  // acnoPswdChange = ``
 
   //database
   database = {
@@ -25,22 +24,22 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  login() {
-    alert("Login clicked!!!")
-  }
+  
   acnoChange(event:any){
     
     this.acno=event.target.value
-    console.log(this.acno);
+  }
+
+  pswdChange(event:any){
     
-    }
-   pswdChange(event:any){
-     this.pswd=event.target.value
-     console.log(this.pswd);
-     
-
-   }
+    this.pswd=event.target.value
+  }
 
 
+
+ login() {
+
+alert("Login clicked!!!")
+
+  }
 }
