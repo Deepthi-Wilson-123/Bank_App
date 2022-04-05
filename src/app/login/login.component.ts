@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   pswd=""
 
   //database
-  database = {
+  database:any = {
 
     1000: { acno: 1000, uname: "Neer", password: 1000, balance: 5000 },
     1001: { acno: 1001, uname: "Laisha", password: 1001, balance: 3000 },
@@ -38,8 +38,27 @@ export class LoginComponent implements OnInit {
 
 
  login() {
+   //----user entered acno n pswd-----//
+   var acno=this.acno
+   var pswd=this.pswd
 
-alert("Login clicked!!!")
+   let database=this.database
 
-  }
+   if(acno in database){
+    if(pswd == database[acno]["password"])
+    {
+      alert("login successful!!!!!!!!")
+    }
+    else{
+      alert("Invalid password")
+    }
+     
+   }
+   else{
+     alert("User does not exist")
+    }
+
+
+
+ }
 }
