@@ -36,50 +36,52 @@ export class LoginComponent implements OnInit {
   }
 
 
-  // // login using event binding
-  //  login() {
-  //    //----user entered acno n pswd-----//
-  //    var acno=this.acno
-  //    var pswd=this.pswd
+  // // login using event binding/two way referencing
+   login() {
+     //----user entered acno n pswd-----//
+     var acno=this.acno
+     console.log(acno);
+     
+     var pswd=this.pswd
 
-  //    let database=this.database
+     let database=this.database
 
-  //    if(acno in database){
-  //     if(pswd == database[acno]["password"]){
-  //       alert("login successful!!!!!!!!")
-  //     }
-  //     else{
-  //       alert("Invalid password")
-  //     }
-
-  //    }
-  //    else{
-  //      alert("User does not exist")
-  //     }
-  //  }
-
-  //login using template referencing variable 
-
-  login(a: any, p: any) {
-
-    console.log(a.value)
-    //----user entered acno n pswd-----//
-    var acno = a.value
-    var pswd = p.value
-
-    let database = this.database
-
-    if (acno in database) {
-      if (pswd == database[acno]["password"]) {
+     if(acno in database){
+      if(pswd == database[acno]["password"]){
         alert("login successful!!!!!!!!")
       }
-      else {
+      else{
         alert("Invalid password")
       }
 
-    }
-    else {
-      alert("User does not exist")
-    }
-  }
+     }
+     else{
+       alert("User does not exist")
+      }
+   }
+
+  //login using template referencing variable 
+
+  // login(a: any, p: any) {
+
+  //   console.log(a.value)
+  //   //----user entered acno n pswd-----//
+  //   var acno = a.value
+  //   var pswd = p.value
+
+  //   let database = this.database
+
+  //   if (acno in database) {
+  //     if (pswd == database[acno]["password"]) {
+  //       alert("login successful!!!!!!!!")
+  //     }
+  //     else {
+  //       alert("Invalid password")
+  //     }
+
+  //   }
+  //   else {
+  //     alert("User does not exist")
+  //   }
+  // }
 }
