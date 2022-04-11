@@ -22,16 +22,59 @@ export class DataService {
       return false
     } else {
       // add details to db
-      database[acno]={
+      database[acno] = {
 
-      acno,
+        acno,
         uname,
         password,
         balance: 0
-    }
+      }
 
-  }console.log(database);
-  
-  return true 
-}
+    } console.log(database);
+
+    return true
+  }
+
+  login(acno: any, pswd: any) {
+
+
+    let database = this.database
+
+    if (acno in database) {
+      if (pswd == database[acno]["password"]) {
+        return true
+      }
+      else {
+        alert("Incorrect Password!!!")
+        return false
+      }
+
+    }
+    else {
+      alert("User does not exist")
+      return false
+    }
+  }
+  // deposit
+  deposit(acno: any, pswd: any, amount: any) {
+    let database = this.database
+    var Amount = parseInt(amount)
+    if (acno in database) {
+      if (pswd == database[acno]["password"]) {
+
+        database[acno]["balance"] += Amount
+        return database[acno]["balance"]
+      }
+      else {
+        alert("Incorrect Password!!!")
+        return false
+      }
+
+    }
+    else {
+      alert("User does not exist!!!")
+      return false
+
+    }
+  }
 }

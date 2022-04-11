@@ -14,14 +14,6 @@ export class LoginComponent implements OnInit {
   acno = ""
   pswd = ""
 
-  // //database
-  // database: any = {
-
-  //   1000: { acno: 1000, uname: "Neer", password: 1000, balance: 5000 },
-  //   1001: { acno: 1001, uname: "Laisha", password: 1001, balance: 3000 },
-  //   1002: { acno: 1002, uname: "Vyom", password: 1002, balance: 4000 },
-  // }
-
   constructor(private router:Router,private ds:DataService) { }
 
   ngOnInit(): void {
@@ -41,29 +33,36 @@ export class LoginComponent implements OnInit {
   // // login using event binding/two way referencing
    login() {
      //----user entered acno n pswd-----//
-     var acno=this.acno
-     console.log(acno);
-     
-     var pswd=this.pswd
+      var acno=this.acno
+      var pswd=this.pswd
+    // call login in dataservice
+     const result =this.ds.login(acno,pswd)
 
-     let database=this.ds.database
-
-     if(acno in database){
-      if(pswd == database[acno]["password"]){
-        alert("login successful!!!!!!!!")
+     if(result){
+       alert("login successful!!!!!!!!")
         this.router.navigateByUrl("dashboard")
       }
-      else{
-        alert("Invalid password")
-      }
+    }
+    
 
-     }
-     else{
-       alert("User does not exist")
-      }
-   }
-
-  //login using template referencing variable 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    //login using template referencing variable 
 
   // login(a: any, p: any) {
 
