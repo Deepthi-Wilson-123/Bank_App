@@ -21,14 +21,17 @@
                         <input type="text" name="uname" formControlName="uname" class="form-control"
                             placeholder="Username PLease!!!!" id="uname" required>
                     </div>
-                    <div *ngIf="(this.registerForm.get('uname')?.touched||this.registerForm.get('uname')?.dirty)&&this.registerForm.get('uname')?.errors" style="color: red;">Invalid Username</div>
+                    <div *ngIf="(this.registerForm.get('uname')?.touched||this.registerForm.get('uname')?.dirty)&&this.registerForm.get('uname')?.errors"
+                        style="color: red;">Invalid Username</div>
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
-                        <input type="text" name="acno" formControlName="acno" class="form-control" 
+                        <input type="text" name="acno" formControlName="acno" class="form-control"
                             placeholder="Account Number Please!!!" id="acno" required>
                     </div>
+                    <div *ngIf="(this.registerForm.get('uname')?.touched||this.registerForm.get('acno')?.dirty)&&this.registerForm.get('acno')?.errors"
+                        style="color: red;">Invalid Account Number</div>
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
@@ -36,6 +39,8 @@
                         <input type="password" name="pswd" formControlName="pswd" class="form-control"
                             placeholder="Password Please!!!" id="login_password" required>
                     </div>
+                    <div *ngIf="(this.registerForm.get('pswd')?.touched||this.registerForm.get('pswd')?.dirty)&&this.registerForm.get('pswd')?.errors"
+                        style="color: red;">Invalid Password</div>
                     <div class="form-group">
                         <input type="submit" value="Register" class="btn float-right login_btn " style="width:50%">
                     </div>
@@ -44,4 +49,4 @@
             <p style="color:white;align-items:baseline;">Existing User? <a routerLink="">Login</a></p>
         </div>
     </div>
-</div> 
+</div>
