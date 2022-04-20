@@ -5,14 +5,15 @@ import { Injectable } from '@angular/core';
 })
 export class DataService {
 
-  currentUser:any
+  currentUser: any
+  currentAcno:any
 
   //database
   database: any = {
 
-    1000: { acno: 1000, uname: "Neer", password: 1000, balance: 5000 },
-    1001: { acno: 1001, uname: "Laisha", password: 1001, balance: 3000 },
-    1002: { acno: 1002, uname: "Vyom", password: 1002, balance: 4000 },
+    1000: { acno: 1000, uname: "Neer", password: 1000, balance: 5000, transaction: [] },
+    1001: { acno: 1001, uname: "Laisha", password: 1001, balance: 3000, transaction: [] },
+    1002: { acno: 1002, uname: "Vyom", password: 1002, balance: 4000, transaction: [] }
   }
 
   constructor() { }
@@ -29,14 +30,15 @@ export class DataService {
         acno,
         uname,
         password,
-        balance: 0
+        balance: 0,
+        transaction: []
       }
 
     } console.log(database);
 
     return true
   }
-
+//login
   login(acno: any, pswd: any) {
 
 
@@ -45,7 +47,8 @@ export class DataService {
     if (acno in database) {
       if (pswd == database[acno]["password"]) {
 
-        this.currentUser=database[acno]['uname']
+        this.currentUser = database[acno]['uname']
+        this.currentAcno=acno
         return true
       }
       else {
@@ -67,6 +70,14 @@ export class DataService {
       if (pswd == database[acno]["password"]) {
 
         database[acno]["balance"] += Amount
+        database[acno]["transaction"].push(
+          {
+            type: "CREDIT",
+            amount: amount
+          }
+        )
+//console.log(database);
+
         return database[acno]["balance"]
       }
       else {
@@ -87,8 +98,18 @@ export class DataService {
     var Amount = parseInt(amount)
     if (acno in database) {
       if (pswd == database[acno]["password"]) {
-        if(database[acno]["balance"]>amount){
-          database[acno]["balance"]-=amount
+        if (database[acno]["balance"] > amount) {
+          database[acno]["balance"] -= amount
+          database[acno]["transaction"].push(
+            {
+              type: "DEBIT",
+              amount: amount
+            }
+          )
+
+//console.log(database);
+
+
           return database[acno]["balance"]
         }
         else {
@@ -109,5 +130,12 @@ export class DataService {
       return false
 
     }
+  }
+
+
+  //transaction 
+  transaction(acno:any){
+    return this.database[acno].transaction
+
   }
 }
