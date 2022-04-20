@@ -7,3 +7,10 @@ table
     margin-right: auto;
     border-style: solid ;
 }
+
+home{
+    margin-left: 900px;
+    color: blue;
+    margin-top: 20px; 
+
+}
