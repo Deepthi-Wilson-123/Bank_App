@@ -5,7 +5,11 @@
 
 </nav>
 <h3 style="color: white;">Welcome {{user}}</h3>
+<h4 style="color:white">Login Details are:{{loginDate|date:'fullDate'|uppercase}}</h4>
 <a routerLink="/transactions">Transaction History</a>
+<button (click)="deleteFromParent()" class="btn btn-danger" style="float: right;">Delete</button>
+<hr>
+<app-delete-confirm [item]=acno>  </app-delete-confirm>
 
 <div class="container col-md-12 mt-0 ">
     <div class="d-flex justify-content-center h-100">
