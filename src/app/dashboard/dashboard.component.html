@@ -7,6 +7,8 @@
 <h3 style="color: white;">Welcome {{user}}</h3>
 <h4 style="color:white">Login Details are:{{loginDate|date:'fullDate'|uppercase}}</h4>
 <a routerLink="/transactions">Transaction History</a>
+<!-- animation demo -->
+<!-- <app-animation-demo></app-animation-demo> -->
 <button (click)="deleteFromParent()" class="btn btn-danger" style="float: right;">Delete</button>
 <hr>
 <app-delete-confirm (onDelete)="onDelete($event)" (onCancel)="onCancel()" [item]=acno>  </app-delete-confirm>
