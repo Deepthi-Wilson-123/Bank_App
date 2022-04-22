@@ -102,4 +102,13 @@ this.acno=JSON.parse(localStorage.getItem("currentAcno")||'')
     this.router.navigateByUrl("")
   }
 
+  onCancel(){
+    this.acno=""
+  }
+
+  onDelete(event:any){
+    alert("delete account "+event)
+
+  }
 }
+ 
