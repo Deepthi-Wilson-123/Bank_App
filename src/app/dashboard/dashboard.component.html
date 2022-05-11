@@ -1,6 +1,8 @@
 <nav class="navbar navbar-light bg-dark ">
     <a class="navbar-brand  " href="#" style="color:rgb(85, 98, 237);"><b>&#169; HAFC Bank Pvt.Ltd </b></a>
     <span class="quote text-light">Giving you freedom...</span>
+    <button (click)="deleteFromParent()" class="btn btn-danger">Delete</button> 
+
     <button (click)="logout()" class="btn btn-warning">Log Out</button>
 
 </nav>
@@ -9,7 +11,7 @@
 <a routerLink="/transactions">Transaction History</a>
 <!-- animation demo -->
 <!-- <app-animation-demo></app-animation-demo> -->
-<button (click)="deleteFromParent()" class="btn btn-danger" style="float: right;">Delete</button>
+<!-- <button (click)="deleteFromParent()" class="btn btn-danger" style="float: right;">Delete</button> -->
 <hr>
 <app-delete-confirm (onDelete)="onDelete($event)" (onCancel)="onCancel()" [item]=acno>  </app-delete-confirm>
 
@@ -69,7 +71,7 @@
                 <h4 appHighlight style="color: white;" class="text-center">Withdraw Form</h4>
 
             </div>
-            <div class="card-body">
+            <!-- <div class="card-body">
                 <form [formGroup]="withdrawForm" (ngSubmit)="withdraw()">
                     
                     <div class="input-group form-group">
@@ -96,6 +98,42 @@
                         </div>
                         <input type="text" class="form-control" name="amount" formControlName="amount1"
                             placeholder="Amount PLease!!!!" id="login_amount" required>
+                    </div>
+                    <div *ngIf="(this.withdrawForm.get('amount')?.touched||this.withdrawForm.get('amount')?.dirty)&&this.withdrawForm.get('amount')?.errors"
+                        style="color: red;">Invalid Amount</div>
+                    
+                    <div class="form-group">
+                        <input type="submit" value="Withdraw" class="btn float-right login_btn " style="width:50%">
+                    </div>
+                </form>
+            </div> -->
+            <div class="card-body">
+                <form [formGroup]="withdrawForm" (ngSubmit)="withdraw()">
+                    
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" class="form-control" name="acno" formControlName="acno"
+                            placeholder="Account Number Please!!!" id="acno1" required>
+                    </div>
+                    <div *ngIf="(this.withdrawForm.get('acno')?.touched||this.withdrawForm.get('acno')?.dirty)&&this.withdrawForm.get('acno')?.errors"
+                        style="color: red;">Invalid Account Number</div>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" class="form-control" name="pswd" formControlName="pswd"
+                            placeholder="Password Please!!!" id="login_password1" required>
+                    </div>
+                    <div *ngIf="(this.withdrawForm.get('pswd')?.touched||this.withdrawForm.get('pswd')?.dirty)&&this.withdrawForm.get('pswd')?.errors"
+                        style="color: red;">Invalid Password</div>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" class="form-control" name="amount" formControlName="amount"
+                            placeholder="Amount PLease!!!!" id="login_amount1" required>
                     </div>
                     <div *ngIf="(this.withdrawForm.get('amount')?.touched||this.withdrawForm.get('amount')?.dirty)&&this.withdrawForm.get('amount')?.errors"
                         style="color: red;">Invalid Amount</div>

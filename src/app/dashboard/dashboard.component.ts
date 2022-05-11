@@ -43,16 +43,16 @@ export class DashboardComponent implements OnInit {
   loginDate:any
 
   constructor(private ds: DataService, private fb: FormBuilder, private router:Router) {
-    this.user = this.ds.currentUser
+    this.user = JSON.parse(localStorage.getItem('currentUser')||'')
     this.loginDate=new Date()
   }
 
   ngOnInit(): void {
-    if(!localStorage.getItem("currentAcno")){
-      alert("Please Log In....")
-      this.router.navigateByUrl("")
+    // if(!localStorage.getItem("currentAcno")){
+    //   alert("Please Log In....")
+    //   this.router.navigateByUrl("")
 
-    }
+    // }
   }
   deposit() {
     var acno = this.depositForm.value.acno
@@ -63,33 +63,46 @@ export class DashboardComponent implements OnInit {
     if (this.depositForm.valid) {
       // caliing deposit in dataservice
 
-      const result = this.ds.deposit(acno, pswd, amount)
-      if (result) {
-        alert(amount + "successfully deposited..And new balance is " + result)
+      this.ds.deposit(acno, pswd, amount)
+      .subscribe((result:any)=>{
+        if(result){
+          alert(result.message)
+        }
+      },
+      (result)=>{
+        alert(result.error.message)
       }
-    }
-    else {
-      alert("Inavalid Form")
-    }
-
+        )
+      }
+      else{
+        alert("Invalid Form")
+      }
+      
   }
   withdraw() {
-    var acno = this.withdrawForm.value.acno1
-    var pswd = this.withdrawForm.value.pswd1
-    var amount = this.withdrawForm.value.amount1
+    var acno = this.withdrawForm.value.acno
+    var pswd = this.withdrawForm.value.pswd
+    var amount = this.withdrawForm.value.amount
 
-    if (this.depositForm.valid) {
-      // calling withdraw in dataservice
-      const result = this.ds.withdraw(acno, pswd, amount)
-      if (result) {
-        alert(amount + "Successfully debited.. New balance is :" + result)
+    if (this.withdrawForm.valid) {
+      this.ds.withdraw(acno, pswd, amount)
+      .subscribe((result:any)=>{
+        if(result){
+          alert(result.message)
+        }
+      },
+      (result)=>{
+        alert(result.error.message)
       }
+        )
+      }
+      else{
+        alert("Invalid Form")
+      }
+     
 
-    }
-    else {
-      alert("Invalid Form")
-    }
-
+     
+    
   }
   deleteFromParent(){
 this.acno=JSON.parse(localStorage.getItem("currentAcno")||'')
@@ -107,7 +120,18 @@ this.acno=JSON.parse(localStorage.getItem("currentAcno")||'')
   }
 
   onDelete(event:any){
-    alert("delete account "+event)
+    this.ds.onDelete(event)
+    .subscribe((result:any)=>{
+      if(result){
+        alert(result.message)
+        this.router.navigateByUrl("")
+      }
+    },
+    (result:any)=>{
+      alert(result.console.error.message)
+      
+    }
+    )
 
   }
 }

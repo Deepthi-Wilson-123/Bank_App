@@ -1,4 +1,9 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Action } from 'rxjs/internal/scheduler/Action';
+const options = {
+  headers: new HttpHeaders()
+}
 
 @Injectable({
   providedIn: 'root'
@@ -6,7 +11,7 @@ import { Injectable } from '@angular/core';
 export class DataService {
 
   currentUser: any
-  currentAcno:any
+  currentAcno: any
 
   //database
   database: any = {
@@ -16,155 +21,103 @@ export class DataService {
     1002: { acno: 1002, uname: "Vyom", password: 1002, balance: 4000, transaction: [] }
   }
 
-  constructor() {this.getDetails() }
-//To save data in local storage
-saveDetails(){
-  localStorage.setItem("database",JSON.stringify(this.database))
-  if(this.currentAcno){
-    localStorage.setItem("currentAcno",JSON.stringify(this.currentAcno))
+  constructor(private http: HttpClient) {
+    this.getDetails()
   }
-  if(this.currentUser){
-    localStorage.setItem("currentUser",JSON.stringify(this.currentUser))
-  }
-}
-
-//to get data from local storage
-getDetails(){
-  if(localStorage.getItem("database")){
-    this.database=JSON.parse(localStorage.getItem("database")||'')
+  //To save data in local storage
+  saveDetails() {
+    localStorage.setItem("database", JSON.stringify(this.database))
+    if (this.currentAcno) {
+      localStorage.setItem("currentAcno", JSON.stringify(this.currentAcno))
+    }
+    if (this.currentUser) {
+      localStorage.setItem("currentUser", JSON.stringify(this.currentUser))
+    }
   }
 
-  if(localStorage.getItem("currentAcno")){
-    this.currentAcno=JSON.parse(localStorage.getItem("currentAcno")||'')
-  }
+  //to get data from local storage
+  getDetails() {
+    if (localStorage.getItem("database")) {
+      this.database = JSON.parse(localStorage.getItem("database") || '')
+    }
 
-  if(localStorage.getItem("currentUser")){
-    this.currentUser=JSON.parse(localStorage.getItem("currentUser")||'')
+    if (localStorage.getItem("currentAcno")) {
+      this.currentAcno = JSON.parse(localStorage.getItem("currentAcno") || '')
+    }
+
+    if (localStorage.getItem("currentUser")) {
+      this.currentUser = JSON.parse(localStorage.getItem("currentUser") || '')
+    }
   }
-}
 
 
   // register
   register(uname: any, acno: any, password: any) {
-    let database = this.database
-    if (acno in database) {
-      // already exist acno
-      return false
-    } else {
-      // add details to db
-      database[acno] = {
-
-        acno,
-        uname,
-        password,
-        balance: 0,
-        transaction: []
-      }
-
-    } console.log(database);
-this.saveDetails()
-    return true
+    const data = {
+      uname,
+      acno,
+      password
+    }
+    return this.http.post('http://localhost:3000/register', data)
   }
-//login
+  //login
   login(acno: any, pswd: any) {
 
 
-    let database = this.database
-
-    if (acno in database) {
-      if (pswd == database[acno]["password"]) {
-
-        this.currentUser = database[acno]['uname']
-        this.currentAcno=acno
-        this.saveDetails()
-        return true
-      }
-      else {
-        alert("Incorrect Password!!!")
-        return false
-      }
-
+    const data = {
+      acno,
+      pswd
     }
-    else {
-      alert("User does not exist")
-      return false
-    }
+    return this.http.post('http://localhost:3000/login', data)
+
   }
   // deposit
   deposit(acno: any, pswd: any, amount: any) {
-    let database = this.database
-    var Amount = parseInt(amount)
-    if (acno in database) {
-      if (pswd == database[acno]["password"]) {
-
-        database[acno]["balance"] += Amount
-        database[acno]["transaction"].push(
-          {
-            type: "CREDIT",
-            amount: amount
-          }
-        )
-//console.log(database);
-this.saveDetails()
-
-        return database[acno]["balance"]
-      }
-      else {
-        alert("Incorrect Password!!!")
-        return false
-      }
-
+    const data = {
+      amount,
+      acno,
+      pswd
     }
-    else {
-      alert("User does not exist!!!")
-      return false
-
-    }
+    return this.http.post('http://localhost:3000/deposit', data, this.getOptions())
   }
+  getOptions() {
+    const token = JSON.parse(localStorage.getItem('token') || '')
+    let headers = new HttpHeaders()
+
+    if (token) {
+      headers = headers.append('x-access-token', token)
+      options.headers = headers
+    }
+    return options
+
+  }
+
+
+
   // withdraw
   withdraw(acno: any, pswd: any, amount: any) {
-    let database = this.database
-    var Amount = parseInt(amount)
-    if (acno in database) {
-      if (pswd == database[acno]["password"]) {
-        if (database[acno]["balance"] > amount) {
-          database[acno]["balance"] -= amount
-          database[acno]["transaction"].push(
-            {
-              type: "DEBIT",
-              amount: amount
-            }
-          )
-
-//console.log(database);
-this.saveDetails()
-
-          return database[acno]["balance"]
-        }
-        else {
-          alert("Insufficient balance!!!")
-          return false
-        }
-
-
-      }
-      else {
-        alert("Incorrect Password!!!")
-        return false
-      }
-
+    const data = {
+      amount,
+      acno,
+      pswd
     }
-    else {
-      alert("User does not exist!!!")
-      return false
-
-    }
+    return this.http.post('http://localhost:3000/withdraw', data, this.getOptions())
   }
 
 
   //transaction 
-  transaction(acno:any){
-    return this.database[acno].transaction
+  transaction(acno: any) {
+    const data = {
+
+      acno
+
+    }
+    return this.http.post('http://localhost:3000/transaction', data, this.getOptions())
 
   }
+  onDelete(acno: any){
+    return this.http.delete('http://localhost:3000/onDelete/' + acno, this.getOptions())
+  }
 }
+
+// 

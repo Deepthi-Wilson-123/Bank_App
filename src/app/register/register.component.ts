@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
     pswd: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]]
 
   })
-  constructor(private db: DataService, private router: Router, private fb: FormBuilder) { }
+  constructor(private ds: DataService, private router: Router, private fb: FormBuilder) { }
 
   ngOnInit(): void {
   }
@@ -32,14 +32,18 @@ export class RegisterComponent implements OnInit {
 
 
     if (this.registerForm.valid) {
-      const result = this.db.register(uname,  acno, pswd)
-      if (result) {
-        alert("Successfully registered!!!!")
-        this.router.navigateByUrl("")
-      }
-      else {
-        alert("account already exist..Please Login!!!")
-      }
+
+      this.ds.register(uname, acno, pswd)
+        .subscribe((result: any) => {
+          if (result) {
+            alert(result.message)
+            this.router.navigateByUrl("")
+          }
+        })
+
+      // else {
+      //   alert("account already exist..Please Login!!!")
+      // }
     } else {
       alert("Invalid Form!!!!")
     }
